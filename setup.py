@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='srse_manchester',
-    version='0.0.2',
+    version='0.0.4',
     packages=find_packages(),
     description='My Ontology Lookup Service',
     long_description=open('README.md').read(),

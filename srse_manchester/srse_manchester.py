@@ -11,9 +11,9 @@ Created: 22/1/2024
 """
 
 from .an_ontology import AnOntology
+from .config import endpoint_info
 import requests
 import logging
-import yaml
 import os
 
 
@@ -53,14 +53,7 @@ def explore_ontology(ontology_id, **kwargs):
     :param kwargs: Arbitrary keyword arguments used for additional arguments.
     :return: An instance of specific Ontology
     """
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-
-    config_path = os.path.join(current_dir, 'config.yml')
-
-    with open(config_path, "r") as config:
-        cfg = yaml.load(config, yaml.Loader)
-
-    collector = DataCollector(ontology_endpoint=cfg["api"]["ontology_uri"],
+    collector = DataCollector(ontology_endpoint=endpoint_info["uri"],
                               ontology_id=ontology_id)
     data = collector.fetch_data()
     if data is not None:

@@ -32,17 +32,21 @@ class DataCollector:
         Fetch data from the ontology endpoint. Handle HTTP and general errors.
         :return: The JSON response data from the ontology endpoint or None if an error occurs.
         """
-        # ToDo The api return 500 instead of 404 when ontology not exists
+
         try:
             response = requests.get(os.path.join(self.uri, self.kwargs.get('ontology_id')))
             response.raise_for_status()
             return response.json()
-        except requests.HTTPError as http_err:
-            logging.error(f'HTTP error occurred: {http_err}')
-            raise http_err
-        except Exception as err:
-            logging.error(f'Other error occurred: {err}')
-            raise err
+        except requests.HTTPError as http_error:
+            # ToDo The api return 500 instead of 404 when ontology not exists
+            if http_error.response.status_code == 500:
+                logging.error(f'No content found for ontology ID')
+            elif http_error.response.status_code == 503:
+                logging.error('Service unavailable')
+            return None
+        except Exception as error:
+            logging.error(f'Other error occurred: {error}')
+            return error
 
 
 def explore_ontology(ontology_id, **kwargs):

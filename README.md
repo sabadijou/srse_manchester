@@ -39,6 +39,16 @@ Also you can print all ontology parameters for example
 print(ontology_info.lang, ontology_info.config.title, ontology_info.config.annotations)
 ```
 
+### Run the application through command line
+To run the application through command line, run the following commands:
+```bash
+git clone https://github.com/sabadijou/srse_manchester.git
+
+cd srse_manchester
+
+python explorer.py
+```
+
 ### Run tests 
 To run tests, follow these steps:
 ```bash

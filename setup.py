@@ -24,7 +24,6 @@ setup(
         'pluggy==1.3.0',
         'pytest==7.4.4',
         'pytest-cov==4.1.0',
-        'PyYAML==6.0.1',
         'requests==2.31.0',
         'tomli==2.0.1',
         'urllib3==2.1.0'

@@ -11,6 +11,7 @@ setup(
     author='Sadegh Abadijou',
     author_email='s.abadijou@gmail.com',
     license='MIT',
+    include_package_data=True,
     install_requires=[
         'certifi==2023.11.17',
         'charset-normalizer==3.3.2',

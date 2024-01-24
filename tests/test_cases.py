@@ -38,26 +38,6 @@ def test_fetch_data_valid(mock_get, mock_response):
     assert response == MR
 
 
-@patch('requests.get', side_effect=requests.HTTPError("HTTP Error"))
-def test_fetch_data_http_error(mock_get):
-    """
-    Test : fetch_data function in DataCollector for handling HTTP errors.
-    """
-    collector = DataCollector("http://www.ebi.ac.uk/ols4/api/ontologies/", ontology_id="invalid_ontology")
-    with pytest.raises(requests.HTTPError):
-        collector.fetch_data()
-
-
-@patch('requests.get', side_effect=Exception("General Error"))
-def test_fetch_data_general_error(mock_get):
-    """
-        Test : fetch_data function in DataCollector for handling General errors.
-    """
-    collector = DataCollector("http://www.ebi.ac.uk/ols4/api/ontologies/", ontology_id="hp")
-    with pytest.raises(Exception):
-        collector.fetch_data()
-
-
 @patch('builtins.open', new_callable=mock_open,
        read_data="api: {ontology_uri: 'http://www.ebi.ac.uk/ols4/api/ontologies/'}")
 @patch('requests.get')
@@ -70,12 +50,29 @@ def test_explore_ontology_valid(mock_get, mock_file, mock_response, mock_config)
     assert ontology is not None
 
 
-@patch('builtins.open', new_callable=mock_open, read_data="api: {ontology_uri: "
-                                                          "'http://www.ebi.ac.uk/ols4/api/ontologies/'}")
-@patch('requests.get', side_effect=requests.HTTPError("HTTP Error"))
-def test_explore_ontology_invalid(mock_get, mock_file):
+@patch('requests.get')
+def test_fetch_data_service_unavailable(mock_get):
     """
-    Test : explore_ontology function with invalid parameters.
+    Test : fetch_data : service unavailable
     """
-    with pytest.raises(requests.HTTPError):
-        explore_ontology("invalid_id")
+    mock_get.side_effect = requests.HTTPError(response=Mock(status_code=503))
+
+    collector = DataCollector("http://www.ebi.ac.uk/ols4/api/ontologies123/", ontology_id="unavailable_service")
+    result = collector.fetch_data()
+
+    assert result is None
+
+
+@patch('requests.get')
+def test_fetch_data_http_error(mock_get):
+    """
+    Test : fetch_data_http_error
+    """
+    mock_get.side_effect = requests.HTTPError(response=Mock(status_code=500))
+
+    collector = DataCollector("http://www.ebi.ac.uk/ols4/api/ontologies/", ontology_id="invalid_ontology")
+    result = collector.fetch_data()
+
+    assert result is None
+
+

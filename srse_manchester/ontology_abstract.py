@@ -1,39 +1,56 @@
+"""
+ontology_abstract.py
+
+Description: Module to handle ontology abstract class.
+
+Author: Sadegh Abadijou
+Email: s.abadijou@gmail.com
+Created: 22/1/2024
+
+"""
+
 from abc import abstractmethod, ABC
 
 
 class Ontology(ABC):
+    """
+    Base module representing ontology abstract class.
+    """
     def __init__(self, **kwargs):
-        self.languages = kwargs.get('languages')
+        """
+        :param kwargs: Keyword arguments for Ontology parameters.
+        """
+        self.languages = kwargs.get('languages', None)
 
-        self.lang = kwargs.get('lang')
+        self.lang = kwargs.get('lang', None)
 
-        self.ontology_id = kwargs.get('ontologyId')
+        self.ontology_id = kwargs.get('ontologyId', None)
 
-        self.loaded = kwargs.get('loaded')
+        self.loaded = kwargs.get('loaded', None)
 
-        self.updated = kwargs.get('updated')
+        self.updated = kwargs.get('updated', None)
 
-        self.status = kwargs.get('status')
+        self.status = kwargs.get('status', None)
 
-        self.message = kwargs.get('message')
+        self.message = kwargs.get('message', None)
 
-        self.version = kwargs.get('version')
+        self.version = kwargs.get('version', None)
 
-        self.fileHash = kwargs.get('fileHash')
+        self.fileHash = kwargs.get('fileHash', None)
 
-        self.loadAttempts = kwargs.get('loadAttempts')
+        self.loadAttempts = kwargs.get('loadAttempts', None)
 
-        self.number_of_terms = kwargs.get('numberOfTerms')
+        self.number_of_terms = kwargs.get('numberOfTerms', None)
 
-        self.number_of_properties = kwargs.get('numberOfProperties')
+        self.number_of_properties = kwargs.get('numberOfProperties', None)
 
-        self.number_of_individuals = kwargs.get('numberOfIndividuals')
+        self.number_of_individuals = kwargs.get('numberOfIndividuals', None)
 
-        self.config = Config(**kwargs.get('config'))
+        self.config = Config(**kwargs.get('config', {}))
 
-        self.base_uris = kwargs.get('baseUris')
+        self.base_uris = kwargs.get('baseUris', None)
 
-        self.links = kwargs.get('_links')
+        self.links = kwargs.get('_links', None)
 
     @abstractmethod
     def print_content(self):
@@ -41,51 +58,56 @@ class Ontology(ABC):
 
 
 class Config:
+    """
+    Config class for additional ontology metadata.
+    """
     def __init__(self, **kwargs):
+        """
+        :param kwargs: Keyword arguments for Config parameters of Ontology.
+        """
+        self.versionIri = kwargs.get('versionIri', None)
 
-        self.versionIri = kwargs.get('versionIri')
+        self.namespace = kwargs.get('namespace', None)
 
-        self.namespace = kwargs.get('namespace')
+        self.preferredPrefix = kwargs.get('preferredPrefix', None)
 
-        self.preferredPrefix = kwargs.get('preferredPrefix')
+        self.title = kwargs.get('title', None)
 
-        self.title = kwargs.get('title')
+        self.description = kwargs.get('description', None)
 
-        self.description = kwargs.get('description')
+        self.homepage = kwargs.get('homepage', None)
 
-        self.homepage = kwargs.get('homepage')
+        self.version = kwargs.get('version', None)
 
-        self.version = kwargs.get('version')
+        self.mailingList = kwargs.get('mailingList', None)
 
-        self.mailingList = kwargs.get('mailingList')
+        self.tracker = kwargs.get('tracker', None)
 
-        self.tracker = kwargs.get('tracker')
+        self.logo = kwargs.get('logo', None)
 
-        self.logo = kwargs.get('logo')
+        self.creators = kwargs.get('creators', None)
 
-        self.creators = kwargs.get('creators')
+        self.annotations = kwargs.get('annotations', None)
 
-        self.annotations = kwargs.get('annotations')
+        self.fileLocation = kwargs.get('fileLocation', None)
 
-        self.fileLocation = kwargs.get('fileLocation')
+        self.oboSlims = kwargs.get('oboSlims', None)
 
-        self.oboSlims = kwargs.get('oboSlims')
+        self.labelProperty = kwargs.get('labelProperty', None)
 
-        self.labelProperty = kwargs.get('labelProperty')
+        self.definitionProperties = kwargs.get('definitionProperties', None)
 
-        self.definitionProperties = kwargs.get('definitionProperties')
+        self.synonymProperties = kwargs.get('synonymProperties', None)
 
-        self.synonymProperties = kwargs.get('synonymProperties')
+        self.hierarchicalProperties = kwargs.get('hierarchicalProperties', None)
 
-        self.hierarchicalProperties = kwargs.get('hierarchicalProperties')
+        self.baseUris = kwargs.get('baseUris', None)
 
-        self.baseUris = kwargs.get('baseUris')
+        self.hiddenProperties = kwargs.get('hiddenProperties', None)
 
-        self.hiddenProperties = kwargs.get('hiddenProperties')
+        self.preferredRootTerms = kwargs.get('preferredRootTerms', None)
 
-        self.preferredRootTerms = kwargs.get('preferredRootTerms')
+        self.isSkos = kwargs.get('isSkos', None)
 
-        self.isSkos = kwargs.get('isSkos')
-
-        self.allowDownload = kwargs.get('allowDownload')
+        self.allowDownload = kwargs.get('allowDownload', None)
 

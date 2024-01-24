@@ -1,7 +1,17 @@
+"""
+data_collector.py
 
-from an_ontology import AnOntology
+Main Module
+
+Description: Module for collecting data from an ontology endpoint and exploring ontology data.
+
+Author: Sadegh Abadijou
+Email: s.abadijou@gmail.com
+Created: 22/1/2024
+"""
+
+from .an_ontology import AnOntology
 import requests
-import argparse
 import logging
 import yaml
 import os
@@ -9,25 +19,41 @@ import os
 
 class DataCollector:
     def __init__(self, ontology_endpoint, **kwargs):
-
+        """
+        :param ontology_endpoint: the base URI for the ontology endpoint
+        :param kwargs: Arbitrary keyword arguments, typically includes 'ontology_id'.
+        """
         self.uri = ontology_endpoint
 
         self.kwargs = kwargs
 
     def fetch_data(self):
+        """
+        Fetch data from the ontology endpoint. Handle HTTP and general errors.
+        :return: The JSON response data from the ontology endpoint or None if an error occurs.
+        """
+        # ToDo The api return 500 instead of 404 when ontology not exists
         try:
             response = requests.get(os.path.join(self.uri, self.kwargs.get('ontology_id')))
             response.raise_for_status()
             return response.json()
         except requests.HTTPError as http_err:
             logging.error(f'HTTP error occurred: {http_err}')
+            raise http_err
         except Exception as err:
             logging.error(f'Other error occurred: {err}')
-        return None
+            raise err
 
 
 def explore_ontology(ontology_id, **kwargs):
-    with open("config.yml", "r") as config:
+    """
+    Explore and return an instance of AnOntology based on the provided ontology_id and other parameters.
+
+    :param ontology_id: The ID of the ontology to be fetched and explored.
+    :param kwargs: Arbitrary keyword arguments used for additional arguments.
+    :return: An instance of specific Ontology
+    """
+    with open("srse_manchester/config.yml", "r") as config:
         cfg = yaml.load(config, yaml.Loader)
 
     collector = DataCollector(ontology_endpoint=cfg["api"]["ontology_uri"],
@@ -38,18 +64,3 @@ def explore_ontology(ontology_id, **kwargs):
         return ontology_instance
     else:
         print("Failed to retrieve data.")
-
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.ERROR)
-
-    parser = argparse.ArgumentParser(description='Ontology Lookup Service')
-
-    parser.add_argument('--ontology_id', type=str, help='The ID of the ontology to fetch data from')
-
-    args = parser.parse_args()
-
-    ontology = explore_ontology(args.ontology_id)
-
-    if ontology is not None:
-        ontology.print_content()

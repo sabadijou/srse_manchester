@@ -53,7 +53,11 @@ def explore_ontology(ontology_id, **kwargs):
     :param kwargs: Arbitrary keyword arguments used for additional arguments.
     :return: An instance of specific Ontology
     """
-    with open("srse_manchester/config.yml", "r") as config:
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+
+    config_path = os.path.join(current_dir, 'config.yml')
+
+    with open(config_path, "r") as config:
         cfg = yaml.load(config, yaml.Loader)
 
     collector = DataCollector(ontology_endpoint=cfg["api"]["ontology_uri"],
